@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAE Bus App</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            font-family: "Gowun Dodum", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        /* Make the map fill the entire screen */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Bottom menu bar */
+        .bottom-menu {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+            border-top: 1px solid #ccc;
+            z-index: 1000;
+            /* Ensure menu appears on top of the map */
+        }
+
+        .bottom-menu a {
+            color: #333;
+            text-decoration: none;
+            font-size: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Current location button */
+        .current-location-btn {
+            position: absolute;
+            bottom: 110px;
+            right: 20px;
+            padding: 5px 10px;
+            background-color: #ffffff;
+            /* Default green */
+            color: #000;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+
+        /* Tooltip */
+        .current-location-btn:hover::after {
+            content: attr(data-tooltip);
+            position: fixed;
+            /* Prevents tooltip from affecting the layout */
+            bottom: 100px;
+            /* Positions tooltip above the button */
+            right: 10px;
+            /* Aligns tooltip close to the button */
+            background-color: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            /* Prevents text from wrapping */
+            max-width: 200px;
+            /* Keeps tooltip compact */
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Bottom menu bar -->
+    <div class="bottom-menu">
+        <a href="#" id="home" class="rounded-circle border p-2"><i class="fas fa-home "></i></a>
+        <a href="#" id="route" class="rounded-circle border p-2"><i class="fas fa-route"></i></a>
+        <a href="#" id="schedule" class="rounded-circle border p-2"><i class="fas fa-calendar-alt"></i></a>
+        <a href="#" id="settings" class="rounded-circle border p-2"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <!-- Current Location Button -->
+    <button class="current-location-btn" id="currentLocationBtn" data-tooltip="Show Current Location">
+        <!-- <i class="fa fa-location-crosshairs"></i> -->
+        <i class="fa fa-location-crosshairs"></i>
+    </button>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Define the boundaries of UAE
+        var uaeBounds = L.latLngBounds(
+            [22.6, 51.5], // Southwest corner of UAE
+            [26.1, 56.5]  // Northeast corner of UAE
+        );
+
+        // Initialize the map with a closer default zoom level
+        var map = L.map('map', {
+            center: [23.4241, 53.8478], // Centered on UAE
+            zoom: 14,
+            maxBounds: uaeBounds,
+            minZoom: 6
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Initialize the location marker variable
+        var locationMarker;
+
+        // Function to handle the current location
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+
+                        // Check if within UAE bounds
+                        if (uaeBounds.contains(userLatLng)) {
+                            map.setView(userLatLng, 14); // Zoom to user's location
+                            document.getElementById("currentLocationBtn").style.backgroundColor = "#fff"; // Green
+                            document.getElementById("currentLocationBtn").setAttribute("data-tooltip", "You are inside UAE");
+                        } else {
+                            map.setView(userLatLng, 6); // Zoom to broader view
+                            document.getElementById("currentLocationBtn").style.backgroundColor = "#dc3545"; // Red
+                            document.getElementById("currentLocationBtn").setAttribute("data-tooltip", "You are outside of UAE");
+                        }
+
+                        // Add or move the location marker
+                        if (locationMarker) {
+                            locationMarker.setLatLng(userLatLng).bindPopup("Your Location").openPopup();
+                        } else {
+                            locationMarker = L.marker(userLatLng).addTo(map).bindPopup("Your Location").openPopup();
+                        }
+                    },
+                    function () {
+                        alert("Unable to retrieve your location.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to pick a location on the map
+        function onMapClick(e) {
+            var pickedLatLng = e.latlng;
+
+            // Check if the picked location is within UAE bounds
+            if (uaeBounds.contains(pickedLatLng)) {
+                document.getElementById("currentLocationBtn").style.backgroundColor = "#28a745"; // Green
+                document.getElementById("currentLocationBtn").setAttribute("data-tooltip", "Picked location is inside UAE");
+            } else {
+                document.getElementById("currentLocationBtn").style.backgroundColor = "#dc3545"; // Red
+                document.getElementById("currentLocationBtn").setAttribute("data-tooltip", "Picked location is outside of UAE");
+            }
+
+            // Move or add the marker to the picked location
+            if (locationMarker) {
+                locationMarker.setLatLng(pickedLatLng).bindPopup("Picked Location").openPopup();
+            } else {
+                locationMarker = L.marker(pickedLatLng).addTo(map).bindPopup("Picked Location").openPopup();
+            }
+
+            // Center map on the picked location
+            map.setView(pickedLatLng, 14);
+        }
+
+        // Add event listener for map clicks to pick a location
+        map.on('click', onMapClick);
+
+        // Event listener for the current location button
+        document.getElementById("currentLocationBtn").addEventListener("click", getCurrentLocation);
+
+    </script>
+</body>
+
+</html>

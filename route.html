@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Selection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding-top: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header i {
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .recommended-list {
+            margin-top: 20px;
+        }
+        .recommended-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .recommended-item:last-child {
+            border-bottom: none;
+        }
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .location-info i {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header with back button -->
+    <div class="header">
+        <i class="fas fa-arrow-left"></i>
+        <h5>Find Route</h5>
+    </div>
+
+    <!-- Location input fields -->
+    <div class="form-group mt-4">
+        <input type="text" class="form-control" placeholder="Current location" aria-label="Current location">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="City Centre Sharjah" aria-label="Destination">
+    </div>
+
+    <!-- Leave now and travel options buttons -->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-outline-primary btn-block" style="margin-right: 5px;">
+            <i class="fas fa-clock"></i> Leave now
+        </button>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary">
+                <i class="fas fa-walking"></i>
+            </button>
+            <button class="btn btn-outline-secondary">
+                <i class="fas fa-bus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Recommended routes -->
+    <div class="recommended-list">
+        <h6>Recommended</h6>
+        <div class="recommended-item">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <p class="mb-0">Rolla Mall</p>
+                    <small>Al Arouba Street - Sharjah</small>
+                </div>
+            </div>
+            <p>10.2KM</p>
+        </div>
+        <div class="recommended-item">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <p class="mb-0">Al Nahda Park Sharjah</p>
+                    <small>Sharjah</small>
+                </div>
+            </div>
+            <p>600M</p>
+        </div>
+        <div class="recommended-item">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <p class="mb-0">City Centre Sharjah</p>
+                    <small>Al Wahda St - Sharjah</small>
+                </div>
+            </div>
+            <p>6.7KM</p>
+        </div>
+        <div class="recommended-item">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <p class="mb-0">Bus Stop</p>
+                    <small>Muwaileh Commercial, Sharjah</small>
+                </div>
+            </div>
+            <p>7.5KM</p>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Font Awesome -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
