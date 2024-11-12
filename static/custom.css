@@ -1,0 +1,76 @@
+ /* Make the map fill the entire screen */
+ html,
+ body {
+     height: 100%;
+     margin: 0;
+ }
+
+ #map {
+     height: 100%;
+     width: 100%;
+     position: absolute;
+     top: 0;
+     left: 0;
+ }
+
+ /* Bottom menu bar */
+ .bottom-menu {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     display: flex;
+     justify-content: center;
+     gap: 20px;
+     background: rgba(255, 255, 255, 0.9);
+     padding: 10px 0;
+     border-top: 1px solid #ccc;
+     z-index: 1000;
+     /* Ensure menu appears on top of the map */
+ }
+
+ .bottom-menu a {
+     color: #333;
+     text-decoration: none;
+     font-size: 25px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+ }
+
+ /* Current location button */
+ .current-location-btn {
+     position: absolute;
+     bottom: 110px;
+     right: 20px;
+     padding: 5px 10px;
+     background-color: #ffffff;
+     /* Default green */
+     color: #000;
+     border: none;
+     cursor: pointer;
+     z-index: 1000;
+     font-size: 20px;
+     border-radius: 50%;
+ }
+
+ /* Tooltip */
+ .current-location-btn:hover::after {
+     content: attr(data-tooltip);
+     position: fixed;
+     /* Prevents tooltip from affecting the layout */
+     bottom: 100px;
+     /* Positions tooltip above the button */
+     right: 10px;
+     /* Aligns tooltip close to the button */
+     background-color: rgba(0, 0, 0, 0.75);
+     color: white;
+     padding: 5px 10px;
+     border-radius: 3px;
+     font-size: 12px;
+     white-space: nowrap;
+     /* Prevents text from wrapping */
+     max-width: 200px;
+     /* Keeps tooltip compact */
+     z-index: 1000;
+ }
