@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAE Bus App</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="static/custom.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            font-family: "Gowun Dodum", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Bottom menu bar -->
+    <div class="bottom-menu">
+        <a href="#" id="home" class="rounded-circle border p-2"><i class="fas fa-home "></i></a>
+        <a href="route.html" id="route" class="rounded-circle border p-2"><i class="fas fa-route"></i></a>
+        <a href="schadule.html" id="schedule" class="rounded-circle border p-2"><i class="fas fa-calendar-alt"></i></a>
+        <a href="#" id="settings" class="rounded-circle border p-2"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <!-- Location Info Box -->
+    <div id="locationInfo"
+        style="display: none; position: absolute; bottom: 0px; left: 0px; background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); z-index: 1000; width: auto;">
+        <button id="closeInfo"
+            style="position: absolute; top: 5px; right: 5px; border: none; background: transparent; font-size: 16px; cursor: pointer;">&times;</button>
+        <strong>Location:</strong> <span id="locationName">Loading...</span><br>
+        <strong>Distance:</strong> <span id="distance">???</span>
+    </div>
+
+
+
+
+    <!-- Current Location Button -->
+    <button class="current-location-btn" id="currentLocationBtn" data-tooltip="Show Current Location">
+        <!-- <i class="fa fa-location-crosshairs"></i> -->
+        <i class="fa fa-location-crosshairs"></i>
+    </button>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="static/main.js"></script>
+
+    
+    
+
+</body>
+
+</html>
